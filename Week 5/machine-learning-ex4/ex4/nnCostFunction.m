@@ -88,12 +88,13 @@ Theta2_grad = zeros(size(Theta2));
 	% Adding the regularization to cost
 	J = J + reg;
 	
-	% Computing the gradient
-	% Theta1_grad = 1 / m * a1' * (h - y);
-	% Theta2_grad = 1 / m * a2' * (h - y);
-	
 	% Backpropagation
+	delta3 = a3 - ymatrix;
+	delta2 = (delta3 * Theta2)(:, 2:end) .* sigmoidGradient(z2);
 	
+	% Computing the gradients
+	Theta1_grad = (1 / m) * (a1' * delta2)';
+	Theta2_grad = (1 / m) * (a2' * delta3)';
 	
 % -------------------------------------------------------------
 
