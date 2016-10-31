@@ -79,23 +79,42 @@ Theta2_grad = zeros(size(Theta2));
 	ymatrix = eye(num_labels)(y, :); % Map to a vector
 	J = sum(sum((1 / m) * ((-ymatrix .* log(h)) - ((1 - ymatrix) .* log(1 - h))))); % Vectorized computation
 	
-	reg = 0;
+	reg_cost = 0;
 	if (lambda > 0) % With regularization
 		% Squared element-wise Theta1 and Theta2
-		reg = (lambda / (2 * m)) * ( sum(sum(Theta1(:, 2:end) .^ 2)) + sum(sum(Theta2(:, 2:end) .^ 2)) );
-	endif
+		reg_cost = (lambda / (2 * m)) * ( sum(sum(Theta1(:, 2:end) .^ 2)) + sum(sum(Theta2(:, 2:end) .^ 2)) );
+	end
 	
 	% Adding the regularization to cost
-	J = J + reg;
-	
+	J = J + reg_cost;
+
 	% Backpropagation
+	% Computing the delta
 	delta3 = a3 - ymatrix;
 	delta2 = (delta3 * Theta2)(:, 2:end) .* sigmoidGradient(z2);
 	
-	% Computing the gradients
-	Theta1_grad = (1 / m) * (a1' * delta2)';
-	Theta2_grad = (1 / m) * (a2' * delta3)';
+	Delta1 = (a1' * delta2)'; 
+	Delta2 = (a2' * delta3)';
 	
+	% Computing the gradients
+	% usign the delta
+	Theta1_grad = (1 / m) * Delta1;
+	Theta2_grad = (1 / m) * Delta2;
+	
+	% Initialize regularization variables
+	reg_grad1 = 0;
+	reg_grad2 = 0;
+		
+	if (lambda > 0)
+		% Compute the regularization
+		reg_grad1 = ((lambda / m) * Theta1(:, 2:end));
+		reg_grad2 = ((lambda / m) * Theta2(:, 2:end));
+	end
+	
+	% Add to gradient descent
+	Theta1_grad(:, 2:end) = Theta1_grad(:, 2:end) + reg_grad1;
+	Theta2_grad(:, 2:end) = Theta2_grad(:, 2:end) + reg_grad2;
+			
 % -------------------------------------------------------------
 
 % =========================================================================
