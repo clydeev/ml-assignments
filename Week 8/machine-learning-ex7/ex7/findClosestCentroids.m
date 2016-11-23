@@ -23,10 +23,13 @@ idx = zeros(size(X,1), 1);
 
 	m = size(X, 1);
 	for i = 1:m
+		% Solve using Euclidean distance or distance formula
 		distance = [];
 		for j = 1:K
 			distance = [distance; sqrt(sum((X(i, :) - centroids(j, :)) .^ 2))];
 		end
+
+		% Find the closest path from the centroid
 		[val idx(i)] = min(distance);
 	end
 
