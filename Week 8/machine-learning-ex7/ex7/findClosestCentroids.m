@@ -30,6 +30,7 @@ idx = zeros(size(X,1), 1);
 		end
 
 		% Find the closest path from the centroid
+		% Store the indices in variable idx
 		[val idx(i)] = min(distance);
 	end
 
