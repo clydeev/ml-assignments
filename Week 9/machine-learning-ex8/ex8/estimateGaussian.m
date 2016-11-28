@@ -21,14 +21,11 @@ sigma2 = zeros(n, 1);
 %               should contain variance of the i-th feature.
 %
 
+	% Computing the mean
+	mu = mean(X)';
 
-
-
-
-
-
-
-
+	% Computing the sigma
+	sigma2 = mean(((X - mu') .^ 2))';
 
 % =============================================================
 
