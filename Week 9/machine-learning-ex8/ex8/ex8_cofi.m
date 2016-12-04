@@ -15,6 +15,8 @@
 %  or any other files other than those mentioned above.
 %
 
+close all; clear; clc;
+
 %% =============== Part 1: Loading movie ratings dataset ================
 %  You will start by loading the movie ratings dataset to understand the
 %  structure of the data.
